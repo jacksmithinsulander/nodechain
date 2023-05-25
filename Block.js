@@ -21,8 +21,9 @@ class Block {
 		return new this({
 			timestamp,
 			lastHash,
+			nonce,
 			data,
-			hash: crypto(timestamp, lastHash, data),
+			hash: crypto(timestamp, lastHash, data, nonce),
 		});
 	}
 }
