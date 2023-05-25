@@ -10,6 +10,13 @@ class Blockchain {
 		const addedBlock = Block.mineBlock
 			({ lastBlock: this.chain.at(-1), data });
 		this.chain.push(addedBlock);
+		return addedBlock;
+	}
+
+	replaceChain(chain) {
+		if (chain.lenth <= this.chain.length) return;
+		if (!Blockchain.isValid(chain)) return;
+		this.chain = chain
 	}
 
 	static isValid(chain) {
