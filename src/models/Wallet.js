@@ -2,7 +2,7 @@ const nacl = require('tweetnacl');
 const naclUtil = require('tweetnacl-util');
 
 class Wallet {
-	generateKeypair() {
+	constructor() {
 		this.keyPair = nacl.sign.keyPair();
 		this.publicKey = naclUtil.encodeBase64(this.keyPair.publicKey);
 	}
