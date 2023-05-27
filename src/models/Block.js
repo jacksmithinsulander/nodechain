@@ -1,9 +1,8 @@
 const crypto = require("./hash");
-const GENESIS_DATA = require(".genesisBlock");
+const GENESIS_DATA = require("./genesisBlock");
 
 class Block {
-	constructor({index, timestam, data, nonce, hash, lastHash }) {
-		//this.index = index;
+	constructor({ timestamp, data, nonce, hash, lastHash }) {
 		this.timestamp = timestamp;
 		this.data = data;
 		this.nonce = nonce;
@@ -14,18 +13,23 @@ class Block {
 	static genesis() {
 		return new this(GENESIS_DATA);
 	}
-	
-	static mineBlock({lastBlock, data}) {
+
+	static async mineBlock({ lastBlock, data }) {
 		const timestamp = Date.now();
 		const lastHash = lastBlock.hash;
-		const nonce = lastBlock.nonce++;
-		return new this({
+		let nonce = lastBlock.nonce + 1;
+		let hash = await crypto(timestamp, lastHash, data, nonce);
+
+		const minedBlock = new this({
 			timestamp,
 			lastHash,
 			nonce,
 			data,
-			hash: crypto(timestamp, lastHash, data, nonce),
+			hash,
 		});
+
+		console.log("Mined Block:", minedBlock);
+		return minedBlock;
 	}
 }
 

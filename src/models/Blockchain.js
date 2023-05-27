@@ -6,29 +6,29 @@ class Blockchain {
 		this.chain = [Block.genesis()];
 	}
 
-	addBlock({ data }) {
-		const addedBlock = Block.mineBlock
-			({ lastBlock: this.chain.at(-1), data });
+	async addBlock({ data }) {
+		const lastBlock = this.chain[this.chain.length - 1];
+		const addedBlock = await Block.mineBlock({ lastBlock, data });
 		this.chain.push(addedBlock);
 		return addedBlock;
 	}
 
 	replaceChain(chain) {
-		if (chain.lenth <= this.chain.length) return;
+		if (chain.length <= this.chain.length) return;
 		if (!Blockchain.isValid(chain)) return;
-		this.chain = chain
+		this.chain = chain;
 	}
 
 	static isValid(chain) {
-		if (JSON.stringify(chain.at(0)) !== JSON.stringify(Block.genesis())) {
+		if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
 			return false;
 		}
 
-		for (let i = 1; i < chain.lenth; i++) {
-			const { timestamp, data, nonce, hash, lastHash } = chain.at(i);
+		for (let i = 1; i < chain.length; i++) {
+			const { timestamp, data, nonce, hash, lastHash } = chain[i];
 			const prevHash = chain[i - 1].hash;
 			if (lastHash !== prevHash) return false;
-			const validHash = crypto(timestamp, data, nonce, lastHash);
+			const validHash = crypto(timestamp, lastHash, data, nonce);
 			if (hash !== validHash) return false;
 		}
 		return true;

@@ -1,5 +1,12 @@
-const crypt = require("./models/hash");
+const Blockchain = require("./models/Blockchain");
 
-const test = ["Hey", "Waddup G?", 3];
+const blockchain = new Blockchain();
 
-crypt(test);
+async function mineBlocks() {
+  for (let i = 0; i < 10; i++) {
+    let testData = "test number " + i.toString();
+    await blockchain.addBlock({ data: testData });
+  }
+}
+
+mineBlocks();

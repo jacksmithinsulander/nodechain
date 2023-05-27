@@ -2,10 +2,11 @@ const bcrypt = require("bcrypt");
 
 const createHash = async (...args) => {
 	const hash = await bcrypt.hash(args.sort().join(' '), 10)
-	console.log({
-		args,
-		hash
-	});
+	//console.log({
+		//args,
+		//hash
+	//});
+	return hash;
 };
 
 module.exports = createHash;
