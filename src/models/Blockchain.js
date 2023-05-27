@@ -1,5 +1,7 @@
 const Block = require("./Block");
-const crypto = require("./hash");
+const Hash = require("./Hash");
+
+const hashInstance = new Hash();
 
 class Blockchain {
 	constructor() {
@@ -19,7 +21,7 @@ class Blockchain {
 		this.chain = chain;
 	}
 
-	static isValid(chain) {
+	static async isValid(chain) {
 		if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
 			return false;
 		}
@@ -28,8 +30,12 @@ class Blockchain {
 			const { timestamp, data, nonce, hash, lastHash } = chain[i];
 			const prevHash = chain[i - 1].hash;
 			if (lastHash !== prevHash) return false;
-			const validHash = crypto(timestamp, lastHash, data, nonce);
-			if (hash !== validHash) return false;
+			const block = [timestamp, lastHash, data, nonce]
+			//console.log(block)
+			const validBlocks = await hashInstance.verifyHash(block, hash);
+			console.log(validBlocks);
+			//const validHash = crypto(timestamp, lastHash, data, nonce);
+			//if (hash !== validHash) return false;
 		}
 		return true;
 	}
