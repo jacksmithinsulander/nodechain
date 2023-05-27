@@ -2,8 +2,6 @@ const Wallet = require("./models/Wallet");
 
 const wallet = new Wallet();
 
-wallet.generateKeypair();
-
 console.log('Generated public key:', wallet.publicKey);
 
 const transaction = {

@@ -1,5 +1,5 @@
 const Transaction = require('./models/Transaction');
-const Wallet = require('./models/Wallet');
+//const Wallet = require('./models/Wallet');
 
 async function main() {
   // Create a new transaction
