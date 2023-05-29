@@ -9,14 +9,14 @@ class Controller {
 		this.mempool = new Mempool();
 	}
 
-	createWallet() {
+	async createWallet() {
 		const wallet = new Wallet();
 		console.log("Your Public key is: ", wallet.publicKey);
 		console.log("Your Private key is: ", wallet.keyPair.secretKey);
 		return wallet;
 	}
 	
-	transaction(sender, recipient, amount, gasFee) {
+	async transaction(sender, recipient, amount, gasFee) {
 		const newTransaction = new Transaction({
 			sender: sender,
 			recipient: recipient,
@@ -33,27 +33,32 @@ class Controller {
 	}
 
 	getBlock(blockHash) {
-	
+		
 	}
 
 	getTransaction(transactionHash) {
-	
+		
 	}
 	
-	getBalance(balanceOff) {
-	
+	getBalance(address) {
+		return address.balance.checkWalletBalance(address.publicKey);
 	}
 
 	getChain() {
-	
+		return this.blockchain.chain;
+	}
+
+	addBlock() {
+		return this.blockchain.addBlock(this.mempool);
 	}
 
 	queryMempool() {
-	
+		return this.mempool.printMempool();
 	}
 
-	latestBlock() {
-	
+	getLatestBlock() {
+		const lastBlock = this.blockchain.chain[blockchain.chain.length - 1];
+		return lastBlock;
 	}
 }
 
