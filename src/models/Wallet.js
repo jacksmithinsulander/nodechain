@@ -1,3 +1,4 @@
+const Balance = require('./Balance');
 const nacl = require('tweetnacl');
 const naclUtil = require('tweetnacl-util');
 
@@ -5,6 +6,8 @@ class Wallet {
 	constructor() {
 		this.keyPair = nacl.sign.keyPair();
 		this.publicKey = naclUtil.encodeBase64(this.keyPair.publicKey);
+		this.balance = new Balance();
+		this.balance.updateBalance(this.publicKey, 10);
 	}
 
 	signTransaction(transaction) {

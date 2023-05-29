@@ -1,8 +1,10 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
+const Balance = require("./Balance");
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
+const balanceInstance = new Balance();
 
 class Transaction {
 	constructor({ sender, recipient, amount, signature, hash }) {
@@ -22,7 +24,20 @@ class Transaction {
 	}
 
 	verifyTransaction() {
-		// Verify the transaction's signature using walletInstance.verifySignature(...)
+		const publicKey = walletInstance.publicKey;
+		return walletInstance.verifySignature(this.hash, this.signature, publicKey);
+	}
+
+	processTransaction() {
+		const senderBalance = this.balance.checkWalletBalance(this.sender);
+		const recipientBalance = this.balance.checkWalletBalance(this.recipient);
+
+		if (senderBalance >= this.amount) {
+			this.balance.updateBalance(this.sender, senderBalance - this.amount);
+			this.balance.updateBalance(this.recipient, recipientBalance + this.amount);
+		} else {
+			console.log("Insufficient balance for transaction");
+		}
 	}
 }
 
