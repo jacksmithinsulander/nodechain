@@ -1,11 +1,10 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
-const Balance = require("./Balance");
 const Mempool = require("./Mempool");
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
-const balanceInstance = new Balance();
+const mempool = new Mempool();
 
 class Transaction {
 	constructor({ 
@@ -48,7 +47,7 @@ class Transaction {
 			gasFee: this.gasFee
 		}
 	}
-                                                                                                                                                  
+
 	processTransaction() {
 		const senderBalance = this.senderBalance.
 			checkWalletBalance(this.sender);
@@ -60,6 +59,8 @@ class Transaction {
 				updateBalance(this.sender, senderBalance - this.amount);
 			this.recipientBalance.
 				updateBalance(this.recipient, recipientBalance + this.amount);
+			const transactionData = this.getTransactionData();
+			mempool.addToMempool(transactionData)
 		} else {
 			console.log("Insufficient balance for transaction");
 		}
