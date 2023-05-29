@@ -1,6 +1,7 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
 const Balance = require("./Balance");
+const Mempool = require("./Mempool");
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
@@ -10,7 +11,7 @@ class Transaction {
 	constructor({ 
 		sender, recipient, amount, 
 		signature, hash, senderBalance, 
-		recipientBalance 
+		recipientBalance, gasFee 
 	}) {
 		this.sender = sender;
 		this.recipient = recipient;
@@ -19,6 +20,7 @@ class Transaction {
 		this.hash = hash;
 		this.senderBalance = senderBalance;
 		this.recipientBalance = recipientBalance;
+		this.gasFee = gasFee;
 	}
 
 	async calculateHash() {
@@ -36,6 +38,16 @@ class Transaction {
 			verifySignature(this.hash, this.signature, publicKey);
 	}
 
+	getTransactionData() {
+		return {
+			sender: this.sender,
+			recipient: this.recipient,
+			amount: this.amount,
+			signature: this.signature,
+			hash: this.hash,
+			gasFee: this.gasFee
+		}
+	}
                                                                                                                                                   
 	processTransaction() {
 		const senderBalance = this.senderBalance.
