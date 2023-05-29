@@ -39,7 +39,13 @@ class Controller {
 	}
 
 	getTransaction(transactionHash) {
-		
+		for (const obj of this.blockchain.chain) {
+			for (const data of obj.data) {
+				if (data.hash === transactionHash) {
+					return data;
+				}
+			}
+		}
 	}
 	
 	getBalance(address) {
