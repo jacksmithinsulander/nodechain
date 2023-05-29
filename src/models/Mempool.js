@@ -18,7 +18,8 @@ class Mempool {
 	}
 
 	printMempool() {
-		console.log(this.mempoolArr);
 		return this.mempoolArr;
 	}
 }
+
+module.exports = Mempool;

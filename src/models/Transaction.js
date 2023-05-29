@@ -1,10 +1,8 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
-const Mempool = require("./Mempool");
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
-const mempool = new Mempool();
 
 class Transaction {
 	constructor({ 
@@ -48,7 +46,7 @@ class Transaction {
 		}
 	}
 
-	processTransaction() {
+	processTransaction(mempool) {
 		const senderBalance = this.senderBalance.
 			checkWalletBalance(this.sender);
 		const recipientBalance = this.recipientBalance.
