@@ -32,11 +32,9 @@ async function main() {
   console.log("Transaction 1 is valid:", isTransaction1Valid);
 
   // Access the transaction properties
-  console.log(transaction1.sender);
-  console.log(transaction1.recipient);
-  console.log(transaction1.amount);
-  console.log(transaction1.signature);
-  console.log(transaction1.hash);
+  console.log("Amount sent from wallet 1 to wallet 2 :", transaction1.amount);
+  console.log("Transaction signature :", transaction1.signature);
+  console.log("Transaction hash :", transaction1.hash);
 
   transaction1.processTransaction(wallet1, wallet2);
 
