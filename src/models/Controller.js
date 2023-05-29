@@ -69,4 +69,4 @@ class Controller {
 		return lastBlock;
 	}
 }
-
+module.exports = Controller;
