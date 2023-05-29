@@ -31,12 +31,8 @@ class Blockchain {
 			const prevHash = chain[i - 1].hash;
 			if (lastHash !== prevHash) return false;
 			const block = [timestamp, lastHash, data, nonce]
-			//console.log(block)
 			const validBlocks = await hashInstance.verifyHash(block, hash);
-			console.log(validBlocks);
 			if (!validBlocks) return false;
-			//const validHash = crypto(timestamp, lastHash, data, nonce);
-			//if (hash !== validHash) return false;
 		}
 		return true;
 	}

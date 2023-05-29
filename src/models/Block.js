@@ -20,7 +20,8 @@ class Block {
 		const timestamp = Date.now();
 		const lastHash = lastBlock.hash;
 		let nonce = lastBlock.nonce + 1;
-		let hash = await hashInstance.generateHash(timestamp, lastHash, data, nonce);
+		let hash = await hashInstance.
+			generateHash(timestamp, lastHash, data, nonce);
 
 		const minedBlock = new this({
 			timestamp,

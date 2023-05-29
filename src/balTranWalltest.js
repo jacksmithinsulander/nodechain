@@ -1,48 +1,48 @@
-const Wallet = require("./models/Wallet");
-const Transaction = require("./models/Transaction");
-const Balance = require("./models/Balance");
+const Wallet = require('./models/Wallet');
+const Transaction = require('./models/Transaction');
+const Balance = require('./models/Balance');
 
-// Generate wallets
-const wallet1 = new Wallet();
-const wallet2 = new Wallet();
-const wallet3 = new Wallet();
+async function main() {
+  // Create wallets
+  const wallet1 = new Wallet();
+  const wallet2 = new Wallet();
 
-// Create balance instance
-const balanceInstance = new Balance();
+  await console.log("Wallet 1 : ", wallet1.publicKey, " balance:", wallet1.balance.checkWalletBalance(wallet1.publicKey));
+  await console.log("Wallet 2 : ", wallet2.publicKey, " balance:", wallet2.balance.checkWalletBalance(wallet2.publicKey));
 
-// Set initial balances
-balanceInstance.updateBalance(wallet1.publicKey, 10);
-balanceInstance.updateBalance(wallet2.publicKey, 5);
-balanceInstance.updateBalance(wallet3.publicKey, 3);
+  // Create a new transaction from wallet1 to wallet2
+  const transaction1 = new Transaction({
+    sender: wallet1.publicKey,
+    recipient: wallet2.publicKey,
+    amount: 5,
+    signature: null,
+    hash: null,
+    senderBalance: wallet1.balance,
+    recipientBalance: wallet2.balance
+  });
 
-// Print initial balances
-console.log("Initial Balances:");
-console.log(wallet1.publicKey, balanceInstance.checkWalletBalance(wallet1.publicKey));
-console.log(wallet2.publicKey, balanceInstance.checkWalletBalance(wallet2.publicKey));
-console.log(wallet3.publicKey, balanceInstance.checkWalletBalance(wallet3.publicKey));
-console.log("----------------------");
+  // Calculate the transaction hash
+  await transaction1.calculateHash();
 
-// Create transactions
-const transaction1 = new Transaction({
-  sender: wallet1.publicKey,
-  recipient: wallet2.publicKey,
-  amount: 5
-});
-transaction1.calculateHash();
-transaction1.sign();
-transaction1.processTransaction();
+  // Sign the transaction
+  transaction1.sign();
 
-const transaction2 = new Transaction({
-  sender: wallet2.publicKey,
-  recipient: wallet3.publicKey,
-  amount: 2
-});
-transaction2.calculateHash();
-transaction2.sign();
-transaction2.processTransaction();
+  // Verify the transaction
+  const isTransaction1Valid = transaction1.verifyTransaction();
+  console.log("Transaction 1 is valid:", isTransaction1Valid);
 
-// Print updated balances
-console.log("Updated Balances:");
-console.log(wallet1.publicKey, balanceInstance.checkWalletBalance(wallet1.publicKey));
-console.log(wallet2.publicKey, balanceInstance.checkWalletBalance(wallet2.publicKey));
-console.log(wallet3.publicKey, balanceInstance.checkWalletBalance(wallet3.publicKey));
+  // Access the transaction properties
+  console.log(transaction1.sender);
+  console.log(transaction1.recipient);
+  console.log(transaction1.amount);
+  console.log(transaction1.signature);
+  console.log(transaction1.hash);
+
+  transaction1.processTransaction(wallet1, wallet2);
+
+  // Log the updated balances  
+  await console.log("Wallet 1 : ", wallet1.publicKey,  "new balance:", wallet1.balance.checkWalletBalance(wallet1.publicKey));
+  await console.log("Wallet 2 : ", wallet2.publicKey, " new  balance:", wallet2.balance.checkWalletBalance(wallet2.publicKey));
+}
+
+main();
