@@ -33,7 +33,9 @@ class Controller {
 	}
 
 	getBlock(blockHash) {
-		
+		foundBlock = this.blockchain.chain.
+			find(block => blocks.hash === blockhash);
+		return foundBlock;
 	}
 
 	getTransaction(transactionHash) {
