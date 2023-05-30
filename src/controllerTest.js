@@ -11,7 +11,7 @@ async function testController() {
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 15; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
@@ -23,6 +23,8 @@ for (let i = 0; i < 10; i++) {
 
   await controller.transaction(sender, recipient, amount, gasFee);
 }
+
+  console.log(controller.queryMempool())
 
   // Mine blocks
   for (let i = 0; i < 3; i++) {

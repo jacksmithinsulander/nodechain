@@ -16,7 +16,10 @@ class Mining {
 	}
 
 	async chooseTransaction(mempool, lastHash, index) {
-		const mempoolArr = mempool.printMempool();
+		const mempoolArr = await mempool.printMempool();
+		console.log(
+			"Mempool : ", mempool, "Last Hash : ", 
+			lastHash, "Index : ", index );
 		mempoolArr.sort(this.sortingAlgo);
 		const data = mempoolArr.slice(0, 5);
 		let conditionMet = false;

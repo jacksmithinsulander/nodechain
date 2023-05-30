@@ -26,21 +26,21 @@ class Controller {
 		console.log(sender.publicKey, "Sender Balance is : ", senderBalance,
 			recipient.publicKey , "Recipient Balance is : ", recipientBalance)
 
-		const newTransaction = new Transaction({
-			sender: sender,
-			recipient: recipient,
+		const newTransaction = await new Transaction({
+			sender: sender.publicKey,
+			recipient: recipient.publicKey,
 			amount: amount,
 			signature: null,
 			hash: null,
-			senderBalance: senderBalance,
-			recipientBalance: recipientBalance,
+			senderBalance: sender.balance,
+			recipientBalance: recipient.balance,
 			gasFee, gasFee
 		});
 		
-		newTransaction.calculateHash();
-		newTransaction.sign();
-		newTransaction.verifyTransaction();
-		newTransaction.processTransaction(this.mempool);
+		await newTransaction.calculateHash();
+		await newTransaction.sign();
+		await newTransaction.verifyTransaction();
+		await newTransaction.processTransaction(this.mempool);
 	}
 
 	getBlock(blockHash) {
@@ -67,8 +67,10 @@ class Controller {
 		return this.blockchain.chain;
 	}
 
-	addBlock() {
-		return this.blockchain.addBlock(this.mempool);
+	async addBlock() {
+		const mem = this.mempool.mempoolArr
+		const miningFromMem = await this.blockchain.addBlock( mem );
+		return miningFromMem;
 	}
 
 	queryMempool() {

@@ -19,9 +19,10 @@ class Block {
 		return new this(GENESIS_DATA);
 	}
 
-	static async mineBlock({ lastBlock, mempool }) {
+	static async mineBlock( lastBlock, mempool ) {
 		const lastHash = lastBlock.hash;
 		let index = lastBlock.index + 1;
+		console.log("From Block: ", mempool)
 
 		const minedBlock = await mining
 			.chooseTransaction(mempool, lastHash, index)
@@ -44,7 +45,5 @@ class Block {
 		return minedBlock;
 	}
 }
-
-module.exports = Block;
 
 module.exports = Block;

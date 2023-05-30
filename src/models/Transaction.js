@@ -16,8 +16,8 @@ class Transaction {
 		this.amount = amount;
 		this.signature = signature;
 		this.hash = hash;
-		this.senderBalance = new Balance();
-		this.recipientBalance = new Balance();
+		this.senderBalance = senderBalance;
+		this.recipientBalance = recipientBalance;
 		this.gasFee = gasFee;
 	}
 

@@ -8,9 +8,10 @@ class Blockchain {
 		this.chain = [Block.genesis()];
 	}
 
-	async addBlock({ mempool }) {
+	async addBlock( mempool ) {
 		const lastBlock = this.chain[this.chain.length - 1];
-		const addedBlock = await Block.mineBlock({ lastBlock, mempool });
+		console.log("From Blockchain: ", mempool);
+		const addedBlock = await Block.mineBlock( lastBlock, mempool );
 		this.chain.push(addedBlock);
 		return addedBlock;
 	}
