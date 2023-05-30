@@ -2,6 +2,7 @@ const GENESIS_DATA = {
 	timestamp: 1,
 	data: [],
 	nonce: 0,
+	index: 0,
 	hash: "#1",
 	lastHash: "#####",
 };

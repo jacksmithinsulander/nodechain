@@ -35,6 +35,9 @@ for (let i = 0; i < 15; i++) {
   const latestBlock = controller.getLatestBlock();
   console.log('Latest Block:', latestBlock);
 
+  const fullChain = controller.getChain();
+  console.log("Full Chain:", fullChain)
+
   // Query the mempool
   console.log('Mempool:');
   controller.queryMempool();

@@ -1,8 +1,6 @@
 const Mining = require("./Mining");
-const Hash = require("./Hash");
 const GENESIS_DATA = require("./genesisBlock");
 
-const hashInstance = new Hash();
 const mining = new Mining();
 
 class Block {
@@ -30,6 +28,7 @@ class Block {
 				const hash = returnData.hash;
 				const timestamp = returnData.timestamp;
 				const nonce = returnData.nonce;
+				const data = returnData.data;
 
 				return new this({
 					timestamp,

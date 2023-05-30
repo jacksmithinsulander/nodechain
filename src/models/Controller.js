@@ -78,7 +78,8 @@ class Controller {
 	}
 
 	getLatestBlock() {
-		const lastBlock = this.blockchain.chain[blockchain.chain.length - 1];
+		const lastBlock = this.blockchain.
+			chain[this.blockchain.chain.length - 1];
 		return lastBlock;
 	}
 }

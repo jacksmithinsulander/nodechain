@@ -1,7 +1,4 @@
 const Block = require("./Block");
-const Hash = require("./Hash");
-
-const hashInstance = new Hash();
 
 class Blockchain {
 	constructor() {

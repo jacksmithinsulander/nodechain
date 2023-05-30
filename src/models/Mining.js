@@ -1,6 +1,13 @@
+const Hash = require("./Hash");
+
+const hashInstance = new Hash();
+
 class Mining {
 	constructor() {
-		this.miningWords = ["lfg", "ngmi", "wagmi", "420", "666", "1337"];
+		this.miningWords = [
+			"lfg", "ngmi", "wagmi", "rug", "pump", 
+			"dump", "420", "666", "1337", "69"
+		];
 	}
 
 	sortingAlgo(a, b) {
@@ -16,7 +23,8 @@ class Mining {
 	}
 
 	async chooseTransaction(mempool, lastHash, index) {
-		const mempoolArr = await mempool.printMempool();
+		const mempoolArr = await mempool;
+		
 		console.log(
 			"Mempool : ", mempool, "Last Hash : ", 
 			lastHash, "Index : ", index );
@@ -24,18 +32,22 @@ class Mining {
 		const data = mempoolArr.slice(0, 5);
 		let conditionMet = false;
 		let hash, timestamp, nonce;
+		let iteration = 1;
 		while (!conditionMet) {
 			for (let i = 0; i < this.miningWords.length; i++) {
 				const pattern = new RegExp(this.miningWords[i], "i");
-				let timestamp = Date.now();
-				let nonce = Math.floor(Math.random() * 100) + 1;
+				 timestamp = Date.now();
+				nonce = Math.floor(Math.random() * 100) + 1;
 				hash = await hashInstance.
 					generateHash(timestamp, lastHash, nonce, index, data);
+				console.log("Iteration: ", iteration);
+				console.log("Tested Hash: ", hash);
 				if (pattern.test(hash)) {
 					conditionMet = true;
 					break;
 				}
 			}
+			iteration++;
 		}
 		const returnData = {
 			hash: hash,
