@@ -5,20 +5,20 @@ async function testController() {
 
   // Create 10 wallets
   const wallets = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 50; i++) {
     const wallet = await controller.createWallet();
     wallets.push(wallet);
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 500; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
     recipient = wallets[Math.floor(Math.random() * wallets.length)];
   }
   const amount = Math.floor(Math.random() * 5) + 1;
-  const gasFee = Math.floor(Math.random() * 5) + 1;
+  const gasFee = Math.floor(Math.random() * 3) + 1;
   console.log("Sending:", amount, "Gasfee:", gasFee);
 
   await controller.transaction(sender, recipient, amount, gasFee);
@@ -27,7 +27,7 @@ for (let i = 0; i < 15; i++) {
   console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 100; i++) {
     await controller.addBlock();
   }
 
@@ -53,7 +53,13 @@ for (let i = 0; i < 15; i++) {
 
   // Query the mempool
   console.log('Mempool:');
-  controller.queryMempool();
+  console.log(controller.queryMempool());
+
+  const transactionToFind = block3.data[2].hash;
+
+  console.log("Transaction to find: ", transactionToFind);
+
+  console.log(controller.getTransaction(transactionToFind));
 }
 
 testController();
