@@ -1,5 +1,6 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
+const Balance = require("./Balance")
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
@@ -15,8 +16,8 @@ class Transaction {
 		this.amount = amount;
 		this.signature = signature;
 		this.hash = hash;
-		this.senderBalance = senderBalance;
-		this.recipientBalance = recipientBalance;
+		this.senderBalance = new Balance();
+		this.recipientBalance = new Balance();
 		this.gasFee = gasFee;
 	}
 

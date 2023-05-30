@@ -13,23 +13,34 @@ class Controller {
 		const wallet = new Wallet();
 		console.log("Your Public key is: ", wallet.publicKey);
 		console.log("Your Private key is: ", wallet.keyPair.secretKey);
+		console.log("Your Balance is: ", wallet.balance.checkWalletBalance(
+			wallet.publicKey));
 		return wallet;
 	}
 	
 	async transaction(sender, recipient, amount, gasFee) {
+		const senderBalance = sender.balance.checkWalletBalance(
+			sender.publicKey);
+		const recipientBalance = recipient.balance.checkWalletBalance(
+			recipient.publicKey);
+		console.log(sender.publicKey, "Sender Balance is : ", senderBalance,
+			recipient.publicKey , "Recipient Balance is : ", recipientBalance)
+
 		const newTransaction = new Transaction({
 			sender: sender,
 			recipient: recipient,
 			amount: amount,
 			signature: null,
 			hash: null,
-			senderBalance: sender.balance,
-			recipientBalance: recipient.balance,
+			senderBalance: senderBalance,
+			recipientBalance: recipientBalance,
 			gasFee, gasFee
 		});
 		
-		newTransaction.calculateHash().sign().verifyTransaction().
-			processTransaction(mempool);
+		newTransaction.calculateHash();
+		newTransaction.sign();
+		newTransaction.verifyTransaction();
+		newTransaction.processTransaction(this.mempool);
 	}
 
 	getBlock(blockHash) {

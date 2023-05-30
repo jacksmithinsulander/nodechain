@@ -37,7 +37,7 @@ class Mining {
 		const returnData = {
 			hash: hash,
 			timestamp: timestamp,
-			nonce: nonce;
+			nonce: nonce,
 			data: data
 		}
 		
