@@ -17,14 +17,14 @@ for (let i = 0; i < 15; i++) {
   while (recipient === sender) {
     recipient = wallets[Math.floor(Math.random() * wallets.length)];
   }
-  const amount = Math.floor(Math.random() * 6) + 1;
-  const gasFee = Math.floor(Math.random() * 2) + 1;
+  const amount = Math.floor(Math.random() * 5) + 1;
+  const gasFee = Math.floor(Math.random() * 5) + 1;
   console.log("Sending:", amount, "Gasfee:", gasFee);
 
   await controller.transaction(sender, recipient, amount, gasFee);
 }
 
-  console.log(controller.queryMempool())
+  console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
   for (let i = 0; i < 3; i++) {
@@ -37,6 +37,19 @@ for (let i = 0; i < 15; i++) {
 
   const fullChain = controller.getChain();
   console.log("Full Chain:", fullChain)
+
+  const blockHash1 = fullChain[1].hash
+  const blockHash2 = fullChain[2].hash
+  const blockHash3 = fullChain[3].hash
+
+  const block1 = controller.getBlock(blockHash1);
+  console.log("Block 1 is :", block1);
+
+  const block2 = controller.getBlock(blockHash2);
+  console.log("Block 2 is :", block2);
+
+  const block3 = controller.getBlock(blockHash3);
+  console.log("Block 3 is :", block3);
 
   // Query the mempool
   console.log('Mempool:');

@@ -6,7 +6,9 @@ class Mining {
 	constructor() {
 		this.miningWords = [
 			"lfg", "ngmi", "wagmi", "rug", "pump", 
-			"dump", "420", "666", "1337", "69"
+			"dump", "420", "666", "1337", "69",
+			"pepe", "doge", "elon", "moon",
+			"lambo", "wojak", "ponzi"
 		];
 	}
 

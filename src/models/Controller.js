@@ -44,8 +44,8 @@ class Controller {
 	}
 
 	getBlock(blockHash) {
-		foundBlock = this.blockchain.chain.
-			find(block => blocks.hash === blockhash);
+		const foundBlock = this.blockchain.chain.
+			find(block => block.hash === blockHash);
 		return foundBlock;
 	}
 
