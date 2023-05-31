@@ -18,7 +18,7 @@ class Broker {
 	}
 
 	handleMessage(channel, message) {
-		const blockchaiun = JSON.parse(message);
+		const blockchain = JSON.parse(message);
 		console.log(`Got message on channel ${channel}, ${message}`);
 
 		if (channel === channels.blockchain) {
