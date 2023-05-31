@@ -4,11 +4,11 @@ const Controller = require("./models/Controller");
 const cors = require("cors");
 const axios = require("axios");
 
-cont app = express();
+const app = express();
 const controller = new Controller();
 const messageBroker = new Broker(controller.blockchain);;
 
-const DEFAULT_PORT = 3000;;
+const DEFAULT_PORT = 3001;
 const ROOT_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 const syncData = async () => {
@@ -30,10 +30,10 @@ app.get('/api/1/wallet', async (req, res) => {
 	res.status(200).json(wallet);
 });
 
-app.post('/api/1/transaction', async (req, res) = {
-	const { sender, recipient, amount gesFee } = req.body
-	const senderWallet = 
-	const recipientWallet =
+app.post('/api/1/transaction', async (req, res) => {
+	const { sender, recipient, amount, gesFee } = req.body;
+	//const senderWallet = 
+	//const recipientWallet =
 
 	await controller.
 		transaction(senderWallet, recipientWallet, amount, gasFees);

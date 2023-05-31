@@ -8,7 +8,7 @@ class Broker {
 	constructor(blockchain) {
 		this.blockchain = blockchain;
 		this.publisher = redis.createClient();
-		this.subscriber = redis.createClient);
+		this.subscriber = redis.createClient();
 
 		this.subscribeToChannels();
 
@@ -45,3 +45,5 @@ class Broker {
 			JSON.stringify(this.blockchain.chain));
 	}
 }
+
+module.exports = Broker;
