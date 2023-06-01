@@ -63,12 +63,14 @@ class Mining {
 		
 		const signature = wallet.signTransaction(returnData);
 		const isValidSignature = wallet.
-			verifySignature(returnData, signature, this.wallet.publicKey);
+			verifySignature(returnData, signature, wallet.publicKey);
 		if (!isValidSignature) {
 		throw new Error("Invalid signature");
 		}
+
+		returnData.signature = signature;
 		
-		return [returnData, signature];
+		return returnData;
 	}
 }
 
