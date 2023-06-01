@@ -1,0 +1,21 @@
+header {
+	height: 5vh;
+	width: 100%;
+	position: relative;
+}
+.Navigation-bar {
+	display: flex;
+	position: absolute;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.Navigation-bar ul{
+	list-style: none;
+	display: flex;
+}
+.Navigation-bar a {
+	text-decoration: none;
+	color: orange;
+	padding: 5px;
+}
