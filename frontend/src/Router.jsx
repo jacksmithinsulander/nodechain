@@ -1,10 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, useLocation, Navigate } from "react-router-dom";
 import App from "./App";
 import { Wallet } from "./components/Wallet";
 import { BlockExplorer } from "./components/BlockExplorer";
 import { Transaction } from "./components/Transaction";
 import { MainView } from "./view/MainView";
 
+const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
+
+  const walletData = localStorage.getItem("walletData");
+
+  if (!walletData && location.pathname !== "/loginprompt") {
+    return <Navigate to="/loginprompt" replace />;
+  }
+
+  return children;
+};
 
 export const router = createBrowserRouter([
   {
@@ -12,25 +23,40 @@ export const router = createBrowserRouter([
     element: <MainView />,
     children: [
       {
-        path: "/", // http://localhost:3000/
+        path: "/",
         element: <App />,
         index: true,
       },
       {
-        path: "/wallet", // http://localhost:3000/wallet
-        element: <Wallet />,
+        path: "/wallet",
+        element: (
+          <ProtectedRoute>
+            <Wallet />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/explorer", // http://localhost:3000/explorer
-        element: <BlockExplorer />,
+        path: "/explorer",
+        element: (
+          <ProtectedRoute>
+            <BlockExplorer />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/transaction", // http://localhost:3000/transaction
-        element: <Transaction />,
+        path: "/transaction",
+        element: (
+          <ProtectedRoute>
+            <Transaction />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/:random", // http://localhost:3000/
-
+        path: "/loginprompt",
+        element: <p>Login to use this function, ogre</p>,
+      },
+      {
+        path: "/:random",
         element: <App />,
       },
     ],

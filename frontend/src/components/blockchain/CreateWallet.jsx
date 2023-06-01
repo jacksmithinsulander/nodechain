@@ -26,11 +26,11 @@ function CreateWallet() {
 
   const handleSignIntoWallet = () => {
     if (wallet) {
-      const walletData = {
-        publicKey: wallet.publicKey,
-        secretKey: wallet.keyPair.secretKey
-      };
-      localStorage.setItem('walletData', JSON.stringify(walletData));
+      //const walletData = {
+      //  publicKey: wallet.publicKey,
+      //  secretKey: wallet.keyPair.secretKey
+      //};
+      localStorage.setItem('walletData', JSON.stringify(wallet));
       window.location.reload(); // Refresh the page
     }
   };

@@ -61,6 +61,13 @@ for (let i = 0; i < 18; i++) {
   console.log("Transaction to find: ", transactionToFind);
 
   console.log(controller.getTransaction(transactionToFind));
+  console.log("Wallet Balances:");
+  for (const wallet of wallets) {
+    const balance = controller.getBalance(wallet);
+    console.log(wallet)
+    console.log(wallet.publicKey, "Balance:", balance);
+  }
 }
+
 
 testController();
