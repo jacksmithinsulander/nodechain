@@ -34,14 +34,23 @@ class Mining {
 			lastHash, "Index : ", index );
 		mempoolArr.sort(this.sortingAlgo);
 		const data = mempoolArr.slice(0, 5);
+
+		for (const transaction of data) {
+			const index = mempoolArr.indexOf(transaction);
+			if (index > -1) {
+				mempool.splice(index, 1);
+			}
+		}
+		
 		let conditionMet = false;
-		let hash, timestamp, nonce;
+		let hash, timestamp, nonce, usedWord;
 		let iteration = 1;
 		while (!conditionMet) {
 			for (let i = 0; i < this.miningWords.length; i++) {
 				const pattern = new RegExp(this.miningWords[i], "i");
 				 timestamp = Date.now();
 				nonce = Math.floor(Math.random() * 100) + 1;
+				usedWord = this.miningWords[i];
 				hash = await hashInstance.
 					generateHash(timestamp, lastHash, nonce, index, data);
 				console.log("Iteration: ", iteration);
@@ -53,13 +62,17 @@ class Mining {
 			}
 			iteration++;
 		}
+		console.log("Used word is", usedWord);
+		const miningReward = usedWord.length - 1;
 		const returnData = {
 			hash: hash,
 			timestamp: timestamp,
 			nonce: nonce,
 			data: data,
-			miner: wallet.publicKey
+			miner: wallet.publicKey,
+			miningReward: miningReward,
 		}
+		console.log("Mining reqard is :", miningReward);
 		
 		const signature = wallet.signTransaction(returnData);
 		const isValidSignature = wallet.
@@ -67,6 +80,11 @@ class Mining {
 		if (!isValidSignature) {
 		throw new Error("Invalid signature");
 		}
+
+		const walletBal = wallet.balance.checkWalletBalance(wallet);
+		const newWalletBal = walletBal + miningReward;
+
+		wallet.balance.updateBalance(wallet.publicKey, newWalletBal)
 
 		returnData.signature = signature;
 		

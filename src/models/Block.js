@@ -6,7 +6,7 @@ const mining = new Mining();
 class Block {
 	constructor({ 
 		timestamp, data, nonce, index, hash, 
-		lastHash, signature, miner 
+		lastHash, signature, miner, miningReward
 	}) {
 		this.timestamp = timestamp;
 		this.data = data;
@@ -16,6 +16,7 @@ class Block {
 		this.lastHash = lastHash;
 		this.signature = signature;
 		this.miner = miner;
+		this.miningReward = miningReward;
 	}
 	
 	static genesis() {
@@ -24,9 +25,9 @@ class Block {
 
 	static async mineBlock( lastBlock, mempool, wallet ) {
 		const lastHash = lastBlock.hash;
-		console.log("Miner Wallet, logged from block.js: ", wallet)
+		//console.log("Miner Wallet, logged from block.js: ", wallet)
 		let index = lastBlock.index + 1;
-		console.log("From Block: ", mempool)
+		//console.log("From Block: ", mempool)
 
 		const minedBlock = await mining
 			.chooseTransaction(wallet, mempool, lastHash, index)
@@ -37,6 +38,7 @@ class Block {
 				const data = returnData.data;
 				const signature = returnData.signature;
 				const miner = returnData.miner;
+				const miningReward = returnData.miningReward;
 
 				return new this({
 					timestamp,
@@ -47,10 +49,11 @@ class Block {
 					hash,
 					signature,
 					miner,
+					miningReward,
 				});
 			});
 
-		console.log("Mined Block:", minedBlock);
+		//console.log("Mined Block:", minedBlock);
 		return minedBlock;
 	}
 }

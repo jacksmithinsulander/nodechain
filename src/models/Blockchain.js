@@ -7,8 +7,8 @@ class Blockchain {
 
 	async addBlock( mempool, wallet ) {
 		const lastBlock = this.chain[this.chain.length - 1];
-		console.log("Wallet from the Blockchain: ", wallet)
-		console.log("From Blockchain: ", mempool);
+		//console.log("Wallet from the Blockchain: ", wallet)
+		//console.log("From Blockchain: ", mempool);
 		const addedBlock = await Block.mineBlock( lastBlock, mempool, wallet );
 		this.chain.push(addedBlock);
 		return addedBlock;
