@@ -13,7 +13,7 @@ const ROOT_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 const syncData = async () => {
 	try {
-		const url = `${ROOT_ADDRESS}/api/1/block`;
+		const url = `${ROOT_ADDRESS}/api/1/chain`;
 		const { data } = await axios.get(url);
 		controller.blockchain.replaceChain(data);
 		console.log("Synchronizing at startup");
@@ -30,15 +30,15 @@ app.get('/api/1/wallet', async (req, res) => {
 	res.status(200).json(wallet);
 });
 
-app.post('/api/1/transaction', async (req, res) => {
-	const { sender, recipient, amount, gesFee } = req.body;
+//app.post('/api/1/transaction', async (req, res) => {
+//	const { sender, recipient, amount, gesFee } = req.body;
 	//const senderWallet = 
 	//const recipientWallet =
 
-	await controller.
-		transaction(senderWallet, recipientWallet, amount, gasFees);
-	res.status(200).json({ message: 'Transaction processed successfully' });
-});
+//	await controller.
+//		transaction(senderWallet, recipientWallet, amount, gasFees);
+//	res.status(200).json({ message: 'Transaction processed successfully' });
+//});
 
 app.get('/api/1/block/:blockHash', (req, res) => {
 	const { blockHash } = req.params;
