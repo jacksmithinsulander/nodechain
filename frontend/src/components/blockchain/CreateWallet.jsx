@@ -26,7 +26,12 @@ function CreateWallet() {
       <button onClick={handleButtonClick}>Create Wallet!</button>
       {buttonPressed ? (
         backendData.publicKey ? (
+        <>
           <p>{backendData.publicKey}</p>
+          <p>Would you like to keep this wallet and sign into it?</p>
+          <button>Yes</button>
+          <button>No</button>
+        </>
         ) : (
           <p>Loading...</p>
         )
