@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import {LandingPage} from "./components/LandingPage";
 
 function App() {
   const [backendData, setBackendData] = useState({})
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <section className="App">
+      <LandingPage></LandingPage>
       <h1>My Blockchain</h1>
       <p>What would you like to do? </p>
       {backendData.publicKey ? (
