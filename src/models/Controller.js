@@ -67,9 +67,10 @@ class Controller {
 		return this.blockchain.chain;
 	}
 
-	async addBlock() {
+	async addBlock(wallet) {
+		console.log("Wallet from the controller", wallet)
 		const mem = this.mempool.mempoolArr
-		const miningFromMem = await this.blockchain.addBlock( mem );
+		const miningFromMem = await this.blockchain.addBlock( mem, wallet );
 		return miningFromMem;
 	}
 

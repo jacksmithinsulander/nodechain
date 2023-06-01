@@ -11,7 +11,7 @@ async function testController() {
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 500; i++) {
+for (let i = 0; i < 50; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
@@ -27,8 +27,9 @@ for (let i = 0; i < 500; i++) {
   console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
-  for (let i = 0; i < 100; i++) {
-    await controller.addBlock();
+  for (let i = 0; i < 3; i++) {
+    const minerWallet = wallets[Math.floor(Math.random() * wallets.length)];
+    await controller.addBlock(minerWallet);
   }
 
   // Get the latest block

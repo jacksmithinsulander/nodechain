@@ -4,31 +4,39 @@ const GENESIS_DATA = require("./genesisBlock");
 const mining = new Mining();
 
 class Block {
-	constructor({ timestamp, data, nonce, index, hash, lastHash }) {
+	constructor({ 
+		timestamp, data, nonce, index, hash, 
+		lastHash, signature, miner 
+	}) {
 		this.timestamp = timestamp;
 		this.data = data;
 		this.nonce = nonce;
 		this.index = index;
 		this.hash = hash;
 		this.lastHash = lastHash;
+		this.signature = signature;
+		this.miner = miner;
 	}
-
+	
 	static genesis() {
 		return new this(GENESIS_DATA);
 	}
 
-	static async mineBlock( lastBlock, mempool ) {
+	static async mineBlock( lastBlock, mempool, wallet ) {
 		const lastHash = lastBlock.hash;
+		console.log("Miner Wallet, logged from block.js: ", wallet)
 		let index = lastBlock.index + 1;
 		console.log("From Block: ", mempool)
 
 		const minedBlock = await mining
-			.chooseTransaction(mempool, lastHash, index)
+			.chooseTransaction(wallet, mempool, lastHash, index)
 			.then(returnData => {
 				const hash = returnData.hash;
 				const timestamp = returnData.timestamp;
 				const nonce = returnData.nonce;
 				const data = returnData.data;
+				const signature = returnData.signature;
+				const miner = returnData.miner;
 
 				return new this({
 					timestamp,
@@ -37,6 +45,8 @@ class Block {
 					index,
 					data,
 					hash,
+					signature,
+					miner,
 				});
 			});
 

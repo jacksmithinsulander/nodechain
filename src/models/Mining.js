@@ -24,9 +24,11 @@ class Mining {
 		return 0;
 	}
 
-	async chooseTransaction(mempool, lastHash, index) {
+	async chooseTransaction(wallet, mempool, lastHash, index) {
+		if (!wallet) {
+			throw new Error("No wallet found");
+		}
 		const mempoolArr = await mempool;
-		
 		console.log(
 			"Mempool : ", mempool, "Last Hash : ", 
 			lastHash, "Index : ", index );
@@ -55,10 +57,18 @@ class Mining {
 			hash: hash,
 			timestamp: timestamp,
 			nonce: nonce,
-			data: data
+			data: data,
+			miner: wallet.publicKey
 		}
 		
-		return returnData;
+		const signature = wallet.signTransaction(returnData);
+		const isValidSignature = wallet.
+			verifySignature(returnData, signature, this.wallet.publicKey);
+		if (!isValidSignature) {
+		throw new Error("Invalid signature");
+		}
+		
+		return [returnData, signature];
 	}
 }
 
