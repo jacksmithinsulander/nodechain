@@ -6,14 +6,14 @@ const axios = require("axios");
 
 const app = express();
 const controller = new Controller();
-const messageBroker = new Broker(controller.blockchain);;
+const messageBroker = new Broker(controller.blockchain);
 
 const DEFAULT_PORT = 3001;
 const ROOT_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 const syncData = async () => {
 	try {
-		const url = `${ROOT_ADDRESS}/api/1/blocks`;
+		const url = `${ROOT_ADDRESS}/api/1/block`;
 		const { data } = await axios.get(url);
 		controller.blockchain.replaceChain(data);
 		console.log("Synchronizing at startup");

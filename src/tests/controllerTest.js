@@ -1,4 +1,4 @@
-const Controller = require('./models/Controller');
+const Controller = require('./../models/Controller');
 
 async function testController() {
   const controller = new Controller();
