@@ -31,6 +31,7 @@ function CreateWallet() {
         secretKey: wallet.keyPair.secretKey
       };
       localStorage.setItem('walletData', JSON.stringify(walletData));
+      window.location.reload(); // Refresh the page
     }
   };
 

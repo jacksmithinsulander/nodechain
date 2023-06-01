@@ -3,6 +3,17 @@ header {
 	width: 100%;
 	position: relative;
 }
+
+.message {
+	color: purple;
+	font-weight: bold;
+	text-align: right;
+}
+
+.wallet {
+	color: green;
+}
+
 .Navigation-bar {
 	display: flex;
 	position: absolute;

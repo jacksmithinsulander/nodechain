@@ -1,7 +1,7 @@
 import React from 'react';
 import {CheckLogin} from './CheckLogin';
 
-export const Transaction = () => {
+export const BlockExplorer = () => {
 	return(
 		<section>
 			<CheckLogin></ CheckLogin>

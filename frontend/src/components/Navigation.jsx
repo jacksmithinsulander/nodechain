@@ -11,7 +11,7 @@ export const Navigation = () => {
           <Link to="/Wallet">My Wallet</Link>
         </li>
         <li>
-          <Link to="/Explorer">Explorer</Link>
+          <Link to="/explorer">Explorer</Link>
         </li>
         <li>
           <Link to="/Transaction">Send Transaction</Link>

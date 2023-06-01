@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Wallet } from "./components/Wallet";
-import { Blockexplorer } from "./components/Blockexplorer";
+import { BlockExplorer } from "./components/BlockExplorer";
 import { Transaction } from "./components/Transaction";
 import { MainView } from "./view/MainView";
 
@@ -21,8 +21,8 @@ export const router = createBrowserRouter([
         element: <Wallet />,
       },
       {
-        path: "/blockexplorer", // http://localhost:3000/blockexplorer
-        element: <Blockexplorer />,
+        path: "/explorer", // http://localhost:3000/explorer
+        element: <BlockExplorer />,
       },
       {
         path: "/transaction", // http://localhost:3000/transaction
