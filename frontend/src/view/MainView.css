@@ -1,24 +1,29 @@
 header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	height: 5vh;
 	width: 100%;
 	position: relative;
 }
 
-.message {
-	color: purple;
-	font-weight: bold;
-	text-align: right;
-}
-
-.wallet {
-	color: green;
-}
-
-.Navigation-bar {
+.navigation-bar {
 	display: flex;
 	position: absolute;
 	justify-content: flex-end;
 	align-items: center;
+}
+
+
+.message {
+	color: purple;
+	font-weight: bold;
+	text-align: right;
+	margin-right: 10px;
+}
+
+.wallet {
+	color: green;
 }
 
 .Navigation-bar ul{
@@ -29,4 +34,5 @@ header {
 	text-decoration: none;
 	color: orange;
 	padding: 5px;
+	font-weight: bold;
 }

@@ -3,14 +3,18 @@ const Mempool = require("./Mempool");
 const Transaction = require("./Transaction");
 const Wallet = require("./Wallet");
 
+const walletInstance = new Wallet();
+
 class Controller {
 	constructor() {
 		this.blockchain = new Blockchain();
 		this.mempool = new Mempool();
+		this.wallets = [];
 	}
 
 	async createWallet() {
 		const wallet = new Wallet();
+		this.wallets.push(wallet);
 		console.log("Your Public key is: ", wallet.publicKey);
 		console.log("Your Private key is: ", wallet.keyPair.secretKey);
 		console.log("Your Balance is: ", wallet.balance.checkWalletBalance(
@@ -59,8 +63,20 @@ class Controller {
 		}
 	}
 	
-	getBalance(address) {
-		return address.balance.checkWalletBalance(address.publicKey);
+	
+	getBalance(input) {
+		if (input instanceof Wallet) {
+    			return input.balance.checkWalletBalance(input.publicKey);
+  		} else if (typeof input === 'string') {
+    			const wallet = this.wallets.find((wallet) => wallet.publicKey === input);
+    			if (wallet) {
+      				return wallet.balance.checkWalletBalance(wallet.publicKey);
+   			} else {
+      				throw new Error('Wallet not found');
+    			}
+  		} else {
+    			throw new Error('Invalid input');
+  		}
 	}
 
 	getChain() {

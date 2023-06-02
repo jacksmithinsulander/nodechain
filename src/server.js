@@ -60,18 +60,18 @@ app.get('/api/1/transaction/:transactionHash', (req, res) => {
 	}
 });
 
-//app.get('/api/1/balance/:address', (req, res) => {
-//	const { address } = req.params;
-//	const balance = controller.getBalance(address);
+app.get('/api/1/balance/:address', (req, res) => {
+	const { address } = req.params;
+	let balance;
+	try {
+		balance = controller.getBalance(address);
+	} catch (error) {
+		return res.status(404).json({ error: 'Wallet not found' });
+	}
 
-//	res.status(200).json({ balance: balance});
-//});
-
-app.get('/api/1/balance', (req, res) => {
-	const { walletData } = req.body;
-	const balance = controller.getBalance(walletData);
-	res.status(200).json({ balance: balance });
+	res.status(200).json({ balance });
 });
+
 
 app.get('/api/1/chain', (req, res) => {
 	const chain = controller.getChain();

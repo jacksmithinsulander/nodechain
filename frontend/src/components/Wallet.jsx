@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./Wallet.css";
 
 export const Wallet = () => {
   const [walletData, setWalletData] = useState(null);
@@ -13,9 +14,7 @@ export const Wallet = () => {
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const response = await axios.get('/api/1/balance', {
-          data: { walletData: walletData }
-        });
+        const response = await axios.get(`/api/1/balance/${walletData.publicKey}`);
         setBalance(response.data.balance);
       } catch (error) {
         console.error('Error fetching balance:', error);
@@ -31,11 +30,16 @@ export const Wallet = () => {
     <section>
       {walletData && (
         <>
-          <h1>Wallet: {walletData.publicKey}</h1>
-          <p>Balance: {balance !== null ? balance : "Loading..."}</p>
-          <p>Transactions: </p>
+        <section class="border">
+          <h1 className="wallet-title">
+            Wallet: <span className="wallet">{walletData.publicKey}</span>
+          </h1>
+          <p><b>Balance: {balance !== null ? `${balance} $OGRES `: "Loading..."}</b></p>
+        </section>
+        <p>Transactions: </p>
         </>
       )}
     </section>
   );
-};
+}; 
+

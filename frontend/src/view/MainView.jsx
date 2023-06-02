@@ -14,7 +14,7 @@ export const MainView = () => {
   return (
     <>
       <header>
-        <Navigation />
+        <Navigation className="navigation-bar" />
         {walletData ? (
           <p className="message">
             Welcome, <span className="wallet">{walletData.publicKey}</span>

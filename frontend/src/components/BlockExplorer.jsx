@@ -10,6 +10,9 @@ export const BlockExplorer = () => {
 				<input type="text" name="searchBlock" /><br />
 				<label htmlFor="searchTransaction">Search Transaction:</label><br />
 				<input type="text" name="searchTransaction" /><br />
+				<label htmlFor="searchAddress">Search Address:</label><br />
+				<input type="text" name="searchAddress" /><br />
+
 			</form>
 			<h2>Blockchain:</h2>
 			<p>Newest > Oldest</p>
