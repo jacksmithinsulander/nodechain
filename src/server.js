@@ -31,10 +31,10 @@ app.get('/api/1/wallet', async (req, res) => {
 });
 
 app.post('/api/1/transaction', async (req, res) => {
-	const { sender, recipient, amount, gesFee } = req.body;
+	const { sender, recipient, amount, gasFee } = req.body;
 
 	await controller.
-		transaction(sender, recipient, amount, gasFees);
+		transaction(sender, recipient, amount, gasFee);
 	res.status(200).json({ message: 'Transaction processed successfully' });
 });
 
