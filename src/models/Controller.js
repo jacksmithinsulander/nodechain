@@ -22,14 +22,18 @@ class Controller {
 		return wallet;
 	}
 	
-	async transaction(sender, recipient, amount, gasFee) {
+	async transaction(sender, recipientPublicKey, amount, gasFee) {
 		const senderBalance = sender.balance.checkWalletBalance(
 			sender.publicKey);
+		const recipient = this.wallets.find((wallet) => wallet.publicKey === recipientPublicKey);
+		if (!recipient) {
+			throw new Error('Recipient not found');
+		}
 		const recipientBalance = recipient.balance.checkWalletBalance(
 			recipient.publicKey);
 		console.log(sender.publicKey, "Sender Balance is : ", senderBalance,
-			recipient.publicKey , "Recipient Balance is : ", recipientBalance)
-
+			recipient.publicKey , "Recipient Balance is : ", recipientBalance);
+	
 		const newTransaction = await new Transaction({
 			sender: sender.publicKey,
 			recipient: recipient.publicKey,
@@ -38,13 +42,18 @@ class Controller {
 			hash: null,
 			senderBalance: sender.balance,
 			recipientBalance: recipient.balance,
-			gasFee, gasFee
+			gasFee: gasFee,
 		});
 		
 		await newTransaction.calculateHash();
 		await newTransaction.sign();
 		await newTransaction.verifyTransaction();
 		await newTransaction.processTransaction(this.mempool);
+	
+		const updatedSenderBalance = sender.balance.checkWalletBalance(sender.publicKey);
+		const updatedRecipientBalance = recipient.balance.checkWalletBalance(recipient.publicKey);
+		console.log(sender.publicKey, "New Sender Balance is : ", updatedSenderBalance,
+			recipient.publicKey , "New Recipient Balance is : ", updatedRecipientBalance);
 	}
 
 	getBlock(blockHash) {

@@ -21,10 +21,10 @@ for (let i = 0; i < 18; i++) {
   const gasFee = Math.floor(Math.random() * 3) + 1;
   console.log("Sending:", amount, "Gasfee:", gasFee);
 
-  await controller.transaction(sender, recipient, amount, gasFee);
+  await controller.transaction(sender, recipient.publicKey, amount, gasFee);
 }
 
-  console.log("Mempool: ", controller.queryMempool())
+  //console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
   for (let i = 0; i < 1; i++) {
@@ -34,17 +34,17 @@ for (let i = 0; i < 18; i++) {
 
   // Get the latest block
   const latestBlock = controller.getLatestBlock();
-  console.log('Latest Block:', latestBlock);
+  //console.log('Latest Block:', latestBlock);
 
   const fullChain = controller.getChain();
-  console.log("Full Chain:", fullChain)
+  //console.log("Full Chain:", fullChain)
 
   const blockHash1 = fullChain[1].hash
 //  const blockHash2 = fullChain[2].hash
 //  const blockHash3 = fullChain[3].hash
 
   const block1 = controller.getBlock(blockHash1);
-  console.log("Block 1 is :", block1);
+  //console.log("Block 1 is :", block1);
 
   //const block2 = controller.getBlock(blockHash2);
   //console.log("Block 2 is :", block2);
@@ -53,15 +53,15 @@ for (let i = 0; i < 18; i++) {
   //console.log("Block 3 is :", block3);
 
   // Query the mempool
-  console.log('Mempool:');
-  console.log(controller.queryMempool());
+  //console.log('Mempool:');
+  //console.log(controller.queryMempool());
 
   const transactionToFind = block1.data[4].hash;
 
-  console.log("Transaction to find: ", transactionToFind);
+  //console.log("Transaction to find: ", transactionToFind);
 
-  console.log(controller.getTransaction(transactionToFind));
-  console.log("Wallet Balances:");
+  //console.log(controller.getTransaction(transactionToFind));
+  //console.log("Wallet Balances:");
   for (const wallet of wallets) {
     const balanceKey = controller.getBalance(wallet.publicKey);
     const balanceClass = controller.getBalance(wallet);
