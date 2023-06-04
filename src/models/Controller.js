@@ -34,13 +34,11 @@ class Controller {
 			recipient.publicKey);
 	
 		const newTransaction = await new Transaction({
-			sender: sender.publicKey,
-			recipient: recipient.publicKey,
+			sender: sender,
+			recipient: recipient,
 			amount: amount,
 			signature: null,
 			hash: null,
-			senderBalance: sender.balance,
-			recipientBalance: recipient.balance,
 			gasFee: gasFee,
 		});
 		
