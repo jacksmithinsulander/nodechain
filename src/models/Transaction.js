@@ -5,14 +5,19 @@ const hashInstance = new Hash();
 const walletInstance = new Wallet();
 
 class Transaction {
-	constructor({ sender, recipient, amount, gasFee }) {
+	constructor({ 
+		sender, recipient, amount, 
+		signature, hash, senderBalance, 
+		recipientBalance, gasFee 
+	}) {
 		this.sender = sender;
 		this.recipient = recipient;
 		this.amount = amount;
+		this.signature = signature;
+		this.hash = hash;
+		this.senderBalance = senderBalance;
+		this.recipientBalance = recipientBalance;
 		this.gasFee = gasFee;
-
-		this.signature = null;
-		this.hash = null;
 	}
 
 	async calculateHash() {
@@ -21,8 +26,7 @@ class Transaction {
 	}
 
 	sign() {
-		this.signature = walletInstance.
-			signTransaction(this.hash);
+		this.signature = walletInstance.signTransaction(this.hash);
 	}
 
 	verifyTransaction() {
@@ -39,12 +43,11 @@ class Transaction {
 			signature: this.signature,
 			hash: this.hash,
 			gasFee: this.gasFee
-		};
+		}
 	}
 
 	processTransaction(mempool) {
-		const senderBalance = walletInstance.
-			checkWalletBalance(this.sender);
+		const senderBalance = walletInstance.checkWalletBalance(this.sender);
 		const recipientBalance = walletInstance.
 			checkWalletBalance(this.recipient);
 
@@ -53,13 +56,12 @@ class Transaction {
 				updateBalance(this.sender, senderBalance - this.amount);
 			walletInstance.
 				updateBalance(this.recipient, recipientBalance + this.amount);
-
 			const transactionData = this.getTransactionData();
-			mempool.addToMempool(transactionData);
+			mempool.addToMempool(transactionData)
 		} else {
-			throw new Error("Insufficient balance for transaction");
+			console.log("Insufficient balance for transaction");
 		}
-	}
+	}                             
 }
 
 module.exports = Transaction;
