@@ -53,9 +53,9 @@ class Transaction {
 
 		if (senderBalance >= this.amount) {
 			walletInstance.
-				updateBalance(this.sender, senderBalance - this.amount);
+				updateBalance(senderBalance - this.amount);
 			walletInstance.
-				updateBalance(this.recipient, recipientBalance + this.amount);
+				updateBalance(recipientBalance + this.amount);
 			const transactionData = this.getTransactionData();
 			mempool.addToMempool(transactionData)
 		} else {
