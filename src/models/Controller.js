@@ -17,22 +17,22 @@ class Controller {
 		this.wallets.push(wallet);
 		console.log("Your Public key is: ", wallet.publicKey);
 		console.log("Your Private key is: ", wallet.keyPair.secretKey);
-		console.log("Your Balance is: ", wallet.balance.checkWalletBalance(
+		console.log("Your Balance is: ", wallet.checkWalletBalance(
 			wallet.publicKey));
 		return wallet;
 	}
 	
 	async transaction(sender, recipientPublicKey, amount, gasFee) {
-		const senderBalance = sender.balance.checkWalletBalance(
+		console.log("Sender.publicKey = ", sender.publicKey)
+		const senderInstance = this.wallets.
+			find((wallet) => wallet.publicKey === sender.publicKey);
+		console.log("SenderInstance =", senderInstance)
+		const senderBalance = senderInstance.checkWalletBalance(
 			sender.publicKey);
-		const recipient = this.wallets.find((wallet) => wallet.publicKey === recipientPublicKey);
-		if (!recipient) {
-			throw new Error('Recipient not found');
-		}
-		const recipientBalance = recipient.balance.checkWalletBalance(
+		const recipient = this.wallets.
+			find((wallet) => wallet.publicKey === recipientPublicKey);
+		const recipientBalance = recipient.checkWalletBalance(
 			recipient.publicKey);
-		console.log(sender.publicKey, "Sender Balance is : ", senderBalance,
-			recipient.publicKey , "Recipient Balance is : ", recipientBalance);
 	
 		const newTransaction = await new Transaction({
 			sender: sender.publicKey,
@@ -49,11 +49,6 @@ class Controller {
 		await newTransaction.sign();
 		await newTransaction.verifyTransaction();
 		await newTransaction.processTransaction(this.mempool);
-	
-		const updatedSenderBalance = sender.balance.checkWalletBalance(sender.publicKey);
-		const updatedRecipientBalance = recipient.balance.checkWalletBalance(recipient.publicKey);
-		console.log(sender.publicKey, "New Sender Balance is : ", updatedSenderBalance,
-			recipient.publicKey , "New Recipient Balance is : ", updatedRecipientBalance);
 	}
 
 	getBlock(blockHash) {
@@ -74,13 +69,15 @@ class Controller {
 	
 	
 	getBalance(input) {
+		console.log(input)
 		if (input instanceof Wallet) {
-    			return input.balance.checkWalletBalance(input.publicKey);
+    			return input.checkWalletBalance(input.publicKey);
   		} else if (typeof input === 'string') {
-    			const wallet = this.wallets.find((wallet) => wallet.publicKey === input);
+    			const wallet = this.wallets.
+    				find((wallet) => wallet.publicKey === input);
     			if (wallet) {
-      				return wallet.balance.checkWalletBalance(wallet.publicKey);
-   			} else {
+      				return wallet.checkWalletBalance(wallet.publicKey);
+   				} else {
       				throw new Error('Wallet not found');
     			}
   		} else {

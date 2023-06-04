@@ -1,6 +1,5 @@
 const Hash = require("./Hash");
 const Wallet = require("./Wallet");
-const Balance = require("./Balance")
 
 const hashInstance = new Hash();
 const walletInstance = new Wallet();
@@ -48,15 +47,14 @@ class Transaction {
 	}
 
 	processTransaction(mempool) {
-		const senderBalance = this.senderBalance.
-			checkWalletBalance(this.sender);
-		const recipientBalance = this.recipientBalance.
+		const senderBalance = walletInstance.checkWalletBalance(this.sender);
+		const recipientBalance = walletInstance.
 			checkWalletBalance(this.recipient);
 
 		if (senderBalance >= this.amount) {
-			this.senderBalance.
+			walletInstance.
 				updateBalance(this.sender, senderBalance - this.amount);
-			this.recipientBalance.
+			walletInstance.
 				updateBalance(this.recipient, recipientBalance + this.amount);
 			const transactionData = this.getTransactionData();
 			mempool.addToMempool(transactionData)

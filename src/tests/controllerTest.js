@@ -56,7 +56,7 @@ for (let i = 0; i < 18; i++) {
   //console.log('Mempool:');
   //console.log(controller.queryMempool());
 
-  const transactionToFind = block1.data[4].hash;
+  //const transactionToFind = block1.data[4].hash;
 
   //console.log("Transaction to find: ", transactionToFind);
 

@@ -81,10 +81,10 @@ class Mining {
 		throw new Error("Invalid signature");
 		}
 
-		const walletBal = wallet.balance.checkWalletBalance(wallet);
+		const walletBal = wallet.checkWalletBalance(wallet);
 		const newWalletBal = walletBal + miningReward;
 
-		wallet.balance.updateBalance(wallet.publicKey, newWalletBal)
+		wallet.updateBalance(wallet.publicKey, newWalletBal)
 
 		returnData.signature = signature;
 		

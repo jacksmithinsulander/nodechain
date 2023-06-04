@@ -16,7 +16,7 @@ export const Transaction = () => {
 
       // Prepare transaction data
       const transactionData = {
-        sender: publicKey,
+        sender: walletData,
         recipient: recipient,
         amount: amount,
         gasFee: gasFee,
