@@ -27,8 +27,7 @@ class Controller {
 		const senderInstance = this.wallets.
 			find((wallet) => wallet.publicKey === sender.publicKey);
 		console.log("SenderInstance =", senderInstance)
-		const senderBalance = senderInstance.checkWalletBalance(
-			sender.publicKey);
+		const senderBalance = senderInstance.checkWalletBalance();
 		const recipient = this.wallets.
 			find((wallet) => wallet.publicKey === recipientPublicKey);
 		const recipientBalance = recipient.checkWalletBalance(
