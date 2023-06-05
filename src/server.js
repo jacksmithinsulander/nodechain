@@ -31,7 +31,7 @@ app.get('/api/1/wallet', async (req, res) => {
 });
 
 app.post('/api/1/transaction', async (req, res) => {
-	const { sender, recipient, amount, gasFee } = req.body;
+	const { amount, gasFee, recipient, sender } = req.body;
 
 	await controller.
 		transaction(sender, recipient, amount, gasFee);

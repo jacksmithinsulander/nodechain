@@ -45,12 +45,16 @@ class Transaction {
 	}
 
 	processTransaction(mempool) {
-		const senderBalance = this.sender.checkWalletBalance();
-		const recipientBalance = this.recipient.checkWalletBalance();
+		console.log("sender is : ", this.sender, " and");
+		console.log("recip is: ", this.recipient, "END");
+		const gasFee = parseInt(this.gasFee);
+		const senderBalance = parseInt(this.sender.checkWalletBalance());
+		const recipientBalance = parseInt(this.recipient.checkWalletBalance());
+		const amount = parseInt(this.amount);
 
 		if (senderBalance >= this.amount) {
-			this.sender.updateBalance(senderBalance - this.amount);
-			this.recipient.updateBalance(recipientBalance + this.amount);
+			this.sender.updateBalance(senderBalance - amount - gasFee);
+			this.recipient.updateBalance(recipientBalance + amount);
 			const transactionData = this.getTransactionData();
 			mempool.addToMempool(transactionData)
 		} else {

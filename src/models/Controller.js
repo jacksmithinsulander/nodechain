@@ -34,7 +34,7 @@ class Controller {
 			recipient.publicKey);
 	
 		const newTransaction = await new Transaction({
-			sender: sender,
+			sender: senderInstance,
 			recipient: recipient,
 			amount: amount,
 			signature: null,
@@ -46,6 +46,26 @@ class Controller {
 		await newTransaction.sign();
 		await newTransaction.verifyTransaction();
 		await newTransaction.processTransaction(this.mempool);
+	}
+
+	findTransactionBySender(sender) {
+		const transactions = []
+
+		for (const obj of this.blockchain.chain) {
+			for (const data of obj.data) {
+				if (data.sender.publicKey === sender) {
+					transactions.push(data);
+				}
+			}
+		}
+
+		for (const transaction of this.mempool)	{
+			if (transaction.sender.publicKey === sender) {
+				transactions.push(transaction);
+			}
+		}
+
+		return transactions;
 	}
 
 	getBlock(blockHash) {
