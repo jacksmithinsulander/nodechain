@@ -59,7 +59,9 @@ class Controller {
 			}
 		}
 
-		for (const transaction of this.mempool)	{
+		const mem = this.mempool.printMempool()
+
+		for (const transaction of mem)	{
 			if (transaction.sender.publicKey === sender) {
 				transactions.push(transaction);
 			}
@@ -107,12 +109,12 @@ class Controller {
 	}
 
 	async addBlock(wallet) {
-		console.log("Wallet from the controller", wallet)
-		const mem = this.mempool.mempoolArr
-		const miningFromMem = await this.blockchain.addBlock( mem, wallet );
-		return miningFromMem;
+		while (this.mempool.mempoolArr.length > 0) {
+			const mem = this.mempool.mempoolArr;
+			await this.blockchain.addBlock(mem, wallet);
+		}
 	}
-
+	
 	queryMempool() {
 		return this.mempool.printMempool();
 	}
