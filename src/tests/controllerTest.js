@@ -11,7 +11,7 @@ async function testController() {
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 3; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
@@ -30,6 +30,7 @@ for (let i = 0; i < 30; i++) {
   for (let i = 0; i < 1; i++) {
     const minerWallet = wallets[Math.floor(Math.random() * wallets.length)];
     await controller.addBlock(minerWallet);
+    console.log(minerWallet)
   }
 
   // Get the latest block

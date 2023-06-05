@@ -72,7 +72,9 @@ class Mining {
 			miner: wallet.publicKey,
 			miningReward: miningReward,
 		}
-		console.log("Mining reqard is :", miningReward);
+		console.log("Mining reward is :", miningReward);
+
+		console.log(wallet);
 		
 		const signature = wallet.signTransaction(returnData);
 		const isValidSignature = wallet.
