@@ -11,6 +11,8 @@ const messageBroker = new Broker(controller.blockchain);
 const DEFAULT_PORT = 3001;
 const ROOT_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
+const serverWallet = await controller.createWallet()
+
 const syncData = async () => {
 	try {
 		const url = `${ROOT_ADDRESS}/api/1/chain`;
@@ -35,6 +37,7 @@ app.post('/api/1/transaction', async (req, res) => {
 
 	await controller.
 		transaction(sender, recipient, amount, gasFee);
+	await controller.addBlock(serverWallet);
 	res.status(200).json({ message: 'Transaction processed successfully' });
 });
 
