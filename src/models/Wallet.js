@@ -22,12 +22,14 @@ class Wallet {
 		return nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
 	}
 
-	updateBalance(newBal) {
-		this.balance = newBal;
+	updateBalance(publicKey, newBal) {
+		if (this.publicKey === publicKey) {
+			this.balance = newBal;
+		}
 	}
 
 	checkWalletBalance() {
-		return this.balance
+		return this.balance;
 	}
 }
 

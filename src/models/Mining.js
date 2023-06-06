@@ -93,17 +93,19 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
 
   // Update sender and recipient balances
   for (const transaction of data) {
-    const senderBalance = wallet.checkWalletBalance(transaction.sender);
-    const recipientBalance = wallet.checkWalletBalance(transaction.recipient);
+    const sender = transaction.sender;
+    const recipient = transaction.recipient;
+    const senderBalance = sender.checkWalletBalance(sender.publicKey);
+    const recipientBalance = recipient.checkWalletBalance(recipient.publicKey);
 
     const newSenderBalance = senderBalance - transaction.amount;
     const newRecipientBalance = recipientBalance + transaction.amount;
 
-    transaction.sender.updateBalance(transaction.sender, newSenderBalance);
-    transaction.recipient.updateBalance(transaction.recipient, newRecipientBalance);
+    sender.updateBalance(sender.publicKey, newSenderBalance);
+    recipient.updateBalance(recipient.publicKey, newRecipientBalance);
   }
 
-  const walletBal = wallet.checkWalletBalance(wallet);
+  const walletBal = wallet.checkWalletBalance(wallet.publicKey);
   const newWalletBal = walletBal + miningReward;
 
   wallet.updateBalance(wallet.publicKey, newWalletBal);
