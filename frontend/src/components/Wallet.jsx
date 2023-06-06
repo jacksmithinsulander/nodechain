@@ -5,11 +5,24 @@ import "./Wallet.css";
 export const Wallet = () => {
   const [walletData, setWalletData] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("walletData"));
     setWalletData(data);
   }, []);
+
+  useEffect(() => {
+    if (walletData) {
+      fetch(`/api/1/senderTransaction/${walletData.publicKey}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setTransactions(data);
+        });
+    }
+  }, [walletData]);
+
+  console.log(transactions);
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -30,16 +43,40 @@ export const Wallet = () => {
     <section>
       {walletData && (
         <>
-        <section class="border">
-          <h1 className="wallet-title">
-            Wallet: <span className="wallet">{walletData.publicKey}</span>
-          </h1>
-          <p><b>Balance: {balance !== null ? `${balance} $OGRES `: "Loading..."}</b></p>
-        </section>
-        <p>Transactions: </p>
+          <section className="border">
+            <h1 className="wallet-title">
+              Wallet: <span className="wallet">{walletData.publicKey}</span>
+            </h1>
+            <p>
+              <b>
+                Balance: {balance !== null ? `${balance} $OGRES ` : "Loading..."}
+              </b>
+            </p>
+          </section>
+          <p>Transactions:</p>
+          {transactions.map((transaction) => (
+            <details key={transaction.hash}>
+              <summary>Transaction: {transaction.hash}</summary>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Sender:</th>
+                    <td>{transaction.sender.publicKey}</td>
+                  </tr>
+                  <tr>
+                    <th>Recipient:</th>
+                    <td>{transaction.recipient.publicKey}</td>
+                  </tr>
+                  <tr>
+                    <th>Amount:</th>
+                    <td>{transaction.amount}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          ))}
         </>
       )}
     </section>
   );
-}; 
-
+};
