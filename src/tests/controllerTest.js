@@ -11,7 +11,7 @@ async function testController() {
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 30; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
@@ -27,7 +27,7 @@ for (let i = 0; i < 3; i++) {
   console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 5; i++) {
     const minerWallet = wallets[Math.floor(Math.random() * wallets.length)];
     await controller.addBlock(minerWallet);
     console.log(minerWallet)
@@ -41,39 +41,39 @@ for (let i = 0; i < 3; i++) {
   console.log("Full Chain:", fullChain)
 
   const blockHash1 = fullChain[1].hash
-  //const blockHash2 = fullChain[2].hash
-  //const blockHash3 = fullChain[3].hash
+  const blockHash2 = fullChain[2].hash
+  const blockHash3 = fullChain[3].hash
 //
   const block1 = controller.getBlock(blockHash1);
   console.log("Block 1 is :", block1);
 
   console.log("Data: ", block1.data)
 //
-  //const block2 = controller.getBlock(blockHash2);
-  //console.log("Block 2 is :", block2);
+  const block2 = controller.getBlock(blockHash2);
+  console.log("Block 2 is :", block2);
 //
-  //const block3 = controller.getBlock(blockHash3);
-  //console.log("Block 3 is :", block3);
+  const block3 = controller.getBlock(blockHash3);
+  console.log("Block 3 is :", block3);
 //
-  //// Query the mempool
-  //console.log('Mempool:');
-  //console.log(controller.queryMempool());
+  // Query the mempool
+  console.log('Mempool:');
+  console.log(controller.queryMempool());
 //
-  //const transactionToFind = block1.data[4].hash;
+  const transactionToFind = block1.data[4].hash;
 //
-  //console.log("Transaction to find: ", transactionToFind);
+  console.log("Transaction to find: ", transactionToFind);
 //
   //console.log(controller.getTransaction(transactionToFind));
-  console.log("Wallet Transactions:");
-  for (const wallet of wallets) {
-  	const transactionsFound = controller.findTransactionBySender(wallet.publicKey);
-  	console.log(wallet.publicKey, transactionsFound)
+  //console.log("Wallet Transactions:");
+  //for (const wallet of wallets) {
+  	//const transactionsFound = controller.findTransactionBySender(wallet.publicKey);
+  	//console.log(wallet.publicKey, transactionsFound)
     //const balanceKey = controller.getBalance(wallet.publicKey);
     //const balanceClass = controller.getBalance(wallet);
     //console.log(wallet)
     //console.log(wallet.publicKey, "Using key Balance:", balanceKey);
     //console.log(wallet.publicKey, "Using class Balance:", balanceClass)
-  }
+  //}
 }
 
 
