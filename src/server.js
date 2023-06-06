@@ -89,6 +89,16 @@ app.get('/api/1/transaction/:transactionHash', (req, res) => {
 	}
 });
 
+app.get('/api/1/senderTransaction/:senderAddress', (req, res) => {
+	const { senderAddress } = req.params;
+	const transactions = controller.findTransactionBySender(senderAddress);
+	if (transactions) {
+		res.status(200).json(transactions)
+	} else {
+		res.status(400).json({ message: 'Wallet/Transaactions not found'});
+	}
+});
+
 app.get('/api/1/balance/:address', (req, res) => {
 	const { address } = req.params;
 	let balance;
