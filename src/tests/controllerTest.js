@@ -11,7 +11,7 @@ async function testController() {
   }
 
   // Send random transactions between wallets
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 13; i++) {
   const sender = wallets[Math.floor(Math.random() * wallets.length)];
   let recipient = wallets[Math.floor(Math.random() * wallets.length)];
   while (recipient === sender) {
@@ -27,7 +27,7 @@ for (let i = 0; i < 30; i++) {
   console.log("Mempool: ", controller.queryMempool())
 
   // Mine blocks
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 3; i++) {
     const minerWallet = wallets[Math.floor(Math.random() * wallets.length)];
     await controller.addBlock(minerWallet);
     console.log(minerWallet)
@@ -63,17 +63,17 @@ for (let i = 0; i < 30; i++) {
 //
   console.log("Transaction to find: ", transactionToFind);
 //
-  //console.log(controller.getTransaction(transactionToFind));
-  //console.log("Wallet Transactions:");
-  //for (const wallet of wallets) {
-  	//const transactionsFound = controller.findTransactionBySender(wallet.publicKey);
-  	//console.log(wallet.publicKey, transactionsFound)
-    //const balanceKey = controller.getBalance(wallet.publicKey);
-    //const balanceClass = controller.getBalance(wallet);
-    //console.log(wallet)
-    //console.log(wallet.publicKey, "Using key Balance:", balanceKey);
-    //console.log(wallet.publicKey, "Using class Balance:", balanceClass)
-  //}
+  console.log(controller.getTransaction(transactionToFind));
+  console.log("Wallet Transactions:");
+  for (const wallet of wallets) {
+  	const transactionsFound = controller.findTransactionBySender(wallet.publicKey);
+  	console.log(wallet.publicKey, transactionsFound)
+    const balanceKey = controller.getBalance(wallet.publicKey);
+    const balanceClass = controller.getBalance(wallet);
+    console.log(wallet)
+    console.log(wallet.publicKey, "Using key Balance:", balanceKey);
+    console.log(wallet.publicKey, "Using class Balance:", balanceClass)
+  }
 }
 
 

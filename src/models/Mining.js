@@ -29,6 +29,7 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   if (!wallet) {
     throw new Error("No wallet found");
   }
+
   const mempoolArr = await mempool;
   console.log("Mempool: ", mempool, "Last Hash: ", lastHash, "Index: ", index);
   mempoolArr.sort(this.sortingAlgo);
@@ -88,6 +89,18 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   const isValidSignature = wallet.verifySignature(returnData, signature, wallet.publicKey);
   if (!isValidSignature) {
     throw new Error("Invalid signature");
+  }
+
+  // Update sender and recipient balances
+  for (const transaction of data) {
+    const senderBalance = wallet.checkWalletBalance(transaction.sender);
+    const recipientBalance = wallet.checkWalletBalance(transaction.recipient);
+
+    const newSenderBalance = senderBalance - transaction.amount;
+    const newRecipientBalance = recipientBalance + transaction.amount;
+
+    transaction.sender.updateBalance(transaction.sender, newSenderBalance);
+    transaction.recipient.updateBalance(transaction.recipient, newRecipientBalance);
   }
 
   const walletBal = wallet.checkWalletBalance(wallet);

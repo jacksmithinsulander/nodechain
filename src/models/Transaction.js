@@ -53,8 +53,8 @@ class Transaction {
 		const amount = parseInt(this.amount);
 
 		if (senderBalance >= this.amount) {
-			this.sender.updateBalance(senderBalance - amount - gasFee);
-			this.recipient.updateBalance(recipientBalance + amount);
+			//this.sender.updateBalance(senderBalance - amount - gasFee);
+			//this.recipient.updateBalance(recipientBalance + amount);
 			const transactionData = this.getTransactionData();
 			mempool.addToMempool(transactionData)
 		} else {
