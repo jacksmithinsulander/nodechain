@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 export const BlockExplorer = () => {
   const [backendData, setBackendData] = useState([]);
   const [searchBlockHash, setSearchBlockHash] = useState('');
+  const [searchTransactionHash, setSearchTransactionHash] = useState('');
   const [searchAddress, setSearchAddress] = useState('');
   const [blockResponse, setBlockResponse] = useState('');
+  const [transactionResponse, setTransactionResponse] = useState('');
   const [balanceResponse, setBalanceResponse] = useState('');
 
   useEffect(() => {
@@ -23,11 +25,19 @@ export const BlockExplorer = () => {
       });
   };
 
+  const handleSearchTransaction = () => {
+    fetch(`/api/1/transaction/${searchTransactionHash}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTransactionResponse(JSON.stringify(data));
+      });
+  };
+
   const handleSearchAddress = () => {
     fetch(`/api/1/balance/${searchAddress}`)
       .then((response) => response.json())
       .then((data) => {
-        setBalanceResponse(`The ogre: ${searchAddress} has ${data.balance} $USD`);
+        setBalanceResponse(`${searchAddress} balance: ${data.balance} $USD`);
       });
   };
 
@@ -88,6 +98,41 @@ export const BlockExplorer = () => {
           </details>
         )}
         <br />
+        <br />
+        <label htmlFor="searchTransaction">Search Transaction:</label>
+        <br />
+        <input type="text" name="searchTransaction" value={searchTransactionHash} onChange={(e) => setSearchTransactionHash(e.target.value)} />
+<button type="button" onClick={handleSearchTransaction}>Search</button>
+{transactionResponse && (
+<details>
+<summary>Transaction: {transactionResponse.hash}</summary>
+<table>
+<tbody>
+<tr>
+<th>Sender:</th>
+<td>{transactionResponse.sender}</td>
+</tr>
+<tr>
+<th>Recipient:</th>
+<td>{transactionResponse.recipient}</td>
+</tr>
+<tr>
+<th>Amount:</th>
+<td>{transactionResponse.amount}</td>
+</tr>
+<tr>
+<th>Gas Fee:</th>
+<td>{transactionResponse.gasFee}</td>
+</tr>
+<tr>
+<th>Timestamp:</th>
+<td>{transactionResponse.timestamp}</td>
+</tr>
+</tbody>
+</table>
+</details>
+)}
+<br />
         <br />
         <label htmlFor="searchAddress">Search Address:</label>
         <br />

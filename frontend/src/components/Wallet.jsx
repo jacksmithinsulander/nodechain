@@ -60,15 +60,15 @@ export const Wallet = () => {
               <table>
                 <tbody>
                   <tr>
-                    <th>Sender:</th>
+                    <th>Sending Ogre:</th>
                     <td>{transaction.sender.publicKey}</td>
                   </tr>
                   <tr>
-                    <th>Recipient:</th>
+                    <th>Recieving Ogre:</th>
                     <td>{transaction.recipient.publicKey}</td>
                   </tr>
                   <tr>
-                    <th>Amount:</th>
+                    <th>Amount Ogrecoins sent:</th>
                     <td>{transaction.amount}</td>
                   </tr>
                 </tbody>
