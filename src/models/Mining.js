@@ -72,7 +72,7 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   this.previousNonce = nonce + 1; // Increment the previousNonce by 1
 
   console.log("Used word is", usedWord);
-  const miningReward = (usedWord.length - 1) + (totalGasFee * 0.1); // Add 10% of total gas fee to mining reward
+  const miningReward = parseInt((usedWord.length - 1) + (totalGasFee * 0.1)); // Add 10% of total gas fee to mining reward
   const returnData = {
     hash: hash,
     timestamp: timestamp,
@@ -99,15 +99,18 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
     const recipientBalance = parseInt(recipient.
     	checkWalletBalance(recipient.publicKey));
 
-    const newSenderBalance = senderBalance - transaction.amount - transaction.gasFee;
-    const newRecipientBalance = recipientBalance + transaction.amount;
+    const amount = parseInt(transaction.amount);
+    const gasFee = parseInt(transaction.gasFee);
+
+    const newSenderBalance = parseInt(senderBalance - amount - gasFee);
+    const newRecipientBalance = parseInt(recipientBalance + amount);
 
     sender.updateBalance(sender.publicKey, newSenderBalance);
     recipient.updateBalance(recipient.publicKey, newRecipientBalance);
   }
 
-  const walletBal = wallet.checkWalletBalance(wallet.publicKey);
-  const newWalletBal = walletBal + miningReward;
+  const walletBal = parseFloat(wallet.checkWalletBalance(wallet.publicKey));
+  const newWalletBal = parseFloat(walletBal + miningReward);
 
   wallet.updateBalance(wallet.publicKey, newWalletBal);
 
