@@ -95,10 +95,11 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   for (const transaction of data) {
     const sender = transaction.sender;
     const recipient = transaction.recipient;
-    const senderBalance = sender.checkWalletBalance(sender.publicKey);
-    const recipientBalance = recipient.checkWalletBalance(recipient.publicKey);
+    const senderBalance = parseInt(sender.checkWalletBalance(sender.publicKey));
+    const recipientBalance = parseInt(recipient.
+    	checkWalletBalance(recipient.publicKey));
 
-    const newSenderBalance = senderBalance - transaction.amount;
+    const newSenderBalance = senderBalance - transaction.amount - transaction.gasFee;
     const newRecipientBalance = recipientBalance + transaction.amount;
 
     sender.updateBalance(sender.publicKey, newSenderBalance);

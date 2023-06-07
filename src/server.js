@@ -37,16 +37,19 @@ const PORT = PEER_PORT || DEFAULT_PORT;
 let serverWallet;
 
 async function initializeServer() {
-	try {
-		serverWallet = await controller.createWallet();
-		console.log("ServerWallet: ", serverWallet);
-		app.listen(PORT, () => {
-			console.log(`Server is up and running on port ${PORT}`);
-			syncData();
-		});
-	} catch (error) {
-		console.error("Error initializing server:", error);
-	}
+  try {
+    serverWallet = await controller.createWallet();
+    console.log("ServerWallet: ", serverWallet);
+    app.listen(PORT, () => {
+      console.log(`Server is up and running on port ${PORT}`);
+      syncData();
+    });
+    
+    // Call addBlock with serverWallet as input
+    await controller.addBlock(serverWallet);
+  } catch (error) {
+    console.error("Error initializing server:", error);
+  }
 }
 
 initializeServer();
@@ -63,7 +66,6 @@ app.post('/api/1/transaction', async (req, res) => {
 		transaction(sender, recipient, amount, gasFee);
 
 	console.log("Serverwallet is:", serverWallet);
-	await controller.addBlock(serverWallet);
 	res.status(200).json({ message: 'Transaction processed successfully' });
 });
 

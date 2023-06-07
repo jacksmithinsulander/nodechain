@@ -109,11 +109,31 @@ class Controller {
 	}
 
 	async addBlock(wallet) {
-		while (this.mempool.mempoolArr.length > 0) {
-			const mem = this.mempool.mempoolArr;
-			await this.blockchain.addBlock(mem, wallet);
-		}
-	}
+  let mempoolIsEmpty = false;
+
+  while (true) {
+    if (mempoolIsEmpty) {
+      // Wait for 1 second before rechecking the mempool
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Check if the mempool is still empty after the wait
+      if (this.mempool.mempoolArr.length > 0) {
+        mempoolIsEmpty = false;
+      } else {
+        // Set the flag to indicate that the mempool is empty
+        mempoolIsEmpty = true;
+      }
+    } else {
+      const mem = this.mempool.mempoolArr;
+      await this.blockchain.addBlock(mem, wallet);
+
+      // Check if the mempool is empty after adding the block
+      if (this.mempool.mempoolArr.length === 0) {
+        mempoolIsEmpty = true;
+      }
+    }
+  }
+}
 	
 	queryMempool() {
 		return this.mempool.printMempool();
