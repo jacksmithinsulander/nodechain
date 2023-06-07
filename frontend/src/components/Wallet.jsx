@@ -22,8 +22,6 @@ export const Wallet = () => {
     }
   }, [walletData]);
 
-  console.log(transactions);
-
   useEffect(() => {
     const fetchBalance = async () => {
       try {

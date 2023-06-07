@@ -15,18 +15,12 @@ class Controller {
 	async createWallet() {
 		const wallet = new Wallet();
 		this.wallets.push(wallet);
-		console.log("Your Public key is: ", wallet.publicKey);
-		console.log("Your Private key is: ", wallet.keyPair.secretKey);
-		console.log("Your Balance is: ", wallet.checkWalletBalance(
-			wallet.publicKey));
 		return wallet;
 	}
 	
 	async transaction(sender, recipientPublicKey, amount, gasFee) {
-		console.log("Sender.publicKey = ", sender.publicKey)
 		const senderInstance = this.wallets.
 			find((wallet) => wallet.publicKey === sender.publicKey);
-		console.log("SenderInstance =", senderInstance)
 		const senderBalance = senderInstance.checkWalletBalance();
 		const recipient = this.wallets.
 			find((wallet) => wallet.publicKey === recipientPublicKey);
@@ -88,7 +82,6 @@ class Controller {
 	
 	
 	getBalance(input) {
-		console.log(input)
 		if (input instanceof Wallet) {
     			return input.checkWalletBalance(input.publicKey);
   		} else if (typeof input === 'string') {
@@ -113,21 +106,17 @@ class Controller {
 
   while (true) {
     if (mempoolIsEmpty) {
-      // Wait for 1 second before rechecking the mempool
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Check if the mempool is still empty after the wait
       if (this.mempool.mempoolArr.length > 0) {
         mempoolIsEmpty = false;
       } else {
-        // Set the flag to indicate that the mempool is empty
         mempoolIsEmpty = true;
       }
     } else {
       const mem = this.mempool.mempoolArr;
       await this.blockchain.addBlock(mem, wallet);
 
-      // Check if the mempool is empty after adding the block
       if (this.mempool.mempoolArr.length === 0) {
         mempoolIsEmpty = true;
       }

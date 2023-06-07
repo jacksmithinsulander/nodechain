@@ -45,7 +45,6 @@ async function initializeServer() {
       syncData();
     });
     
-    // Call addBlock with serverWallet as input
     await controller.addBlock(serverWallet);
   } catch (error) {
     console.error("Error initializing server:", error);

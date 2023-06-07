@@ -9,12 +9,10 @@ export const Transaction = () => {
   const handleTransactionSubmit = (event) => {
     event.preventDefault();
 
-    // Get the wallet data from localStorage
     const walletData = JSON.parse(localStorage.getItem('walletData'));
     if (walletData) {
       const { publicKey, secretKey } = walletData;
 
-      // Prepare transaction data
       const transactionData = {
         sender: walletData,
         recipient: recipient,
@@ -23,7 +21,6 @@ export const Transaction = () => {
         secretKey: secretKey
       };
 
-      // Send transaction data to the server
       fetch('/api/1/transaction', {
         method: 'POST',
         headers: {
@@ -32,14 +29,12 @@ export const Transaction = () => {
         body: JSON.stringify(transactionData)
       })
         .then(response => response.json())
-        .then(data => {
-          console.log('Transaction processed successfully:', data);
-          // Do something with the response data if needed
-        })
-        .catch(error => {
-          console.error('Error processing transaction:', error);
-          // Handle the error if needed
-        });
+        //.then(data => {
+          //console.log('Transaction processed successfully:', data);
+        //})
+        //.catch(error => {
+          //console.error('Error processing transaction:', error);
+        //});
     }
   };
 

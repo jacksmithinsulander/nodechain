@@ -25,9 +25,7 @@ class Block {
 
 	static async mineBlock( lastBlock, mempool, wallet ) {
 		const lastHash = lastBlock.hash;
-		//console.log("Miner Wallet, logged from block.js: ", wallet)
 		let index = lastBlock.index + 1;
-		//console.log("From Block: ", mempool)
 
 		const minedBlock = await mining
 			.chooseTransaction(wallet, mempool, lastHash, index)
@@ -52,8 +50,6 @@ class Block {
 					miningReward,
 				});
 			});
-
-		//console.log("Mined Block:", minedBlock);
 		return minedBlock;
 	}
 }

@@ -11,9 +11,9 @@ function CreateWallet() {
         .then(data => {
           setWallet(data);
         })
-        .catch(error => {
-          console.error("Error fetching data:", error);
-        })
+        //.catch(error => {
+        //  console.error("Error fetching data:", error);
+        //})
         .finally(() => {
           setButtonPressed(false);
         });
@@ -26,12 +26,8 @@ function CreateWallet() {
 
   const handleSignIntoWallet = () => {
     if (wallet) {
-      //const walletData = {
-      //  publicKey: wallet.publicKey,
-      //  secretKey: wallet.keyPair.secretKey
-      //};
       localStorage.setItem('walletData', JSON.stringify(wallet));
-      window.location.reload(); // Refresh the page
+      window.location.reload();
     }
   };
 

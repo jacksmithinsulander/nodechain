@@ -31,7 +31,6 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   }
 
   const mempoolArr = await mempool;
-  console.log("Mempool: ", mempool, "Last Hash: ", lastHash, "Index: ", index);
   mempoolArr.sort(this.sortingAlgo);
   const data = mempoolArr.slice(0, 5);
 
@@ -45,9 +44,8 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
   let conditionMet = false;
   let hash, timestamp, nonce, usedWord;
   let iteration = 1;
-  let totalGasFee = 0; // Variable to hold the total gas fee
+  let totalGasFee = 0;
 
-  // Calculate the total gas fee of all transactions
   for (const transaction of data) {
     totalGasFee += transaction.gasFee;
   }
@@ -56,7 +54,7 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
     for (let i = 0; i < this.miningWords.length; i++) {
       const pattern = new RegExp(this.miningWords[i], "i");
       timestamp = Date.now();
-      nonce = this.previousNonce + ((iteration - 1) % 3) + 1; // Nonce within the range 1-3
+      nonce = this.previousNonce + ((iteration - 1) % 3) + 1;
       usedWord = this.miningWords[i];
       hash = await hashInstance.generateHash(timestamp, lastHash, nonce, index, data);
       console.log("Iteration: ", iteration);
@@ -69,10 +67,10 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
     iteration++;
   }
 
-  this.previousNonce = nonce + 1; // Increment the previousNonce by 1
+  this.previousNonce = nonce + 1;
 
-  console.log("Used word is", usedWord);
-  const miningReward = parseInt((usedWord.length - 1) + (totalGasFee * 0.1)); // Add 10% of total gas fee to mining reward
+  console.log("Used word is", usedWord)
+  const miningReward = parseFloat((usedWord.length - 1) + (totalGasFee * 0.1));
   const returnData = {
     hash: hash,
     timestamp: timestamp,
@@ -81,9 +79,6 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
     miner: wallet.publicKey,
     miningReward: miningReward,
   };
-  console.log("Mining reward is :", miningReward);
-
-  console.log(wallet);
 
   const signature = wallet.signTransaction(returnData);
   const isValidSignature = wallet.verifySignature(returnData, signature, wallet.publicKey);
@@ -91,7 +86,6 @@ async chooseTransaction(wallet, mempool, lastHash, index) {
     throw new Error("Invalid signature");
   }
 
-  // Update sender and recipient balances
   for (const transaction of data) {
     const sender = transaction.sender;
     const recipient = transaction.recipient;
