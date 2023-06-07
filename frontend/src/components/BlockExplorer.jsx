@@ -27,7 +27,7 @@ export const BlockExplorer = () => {
     fetch(`/api/1/balance/${searchAddress}`)
       .then((response) => response.json())
       .then((data) => {
-        setBalanceResponse(`The ogre: ${searchAddress} has ${data.balance} $USD`);
+        setBalanceResponse(`The ogre: ${searchAddress} has ${data.balance} $OGRES`);
       });
   };
 
